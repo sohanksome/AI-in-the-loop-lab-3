@@ -21,10 +21,12 @@
 
 ## Part 3 — Draft Evaluation Plan
 1. Problem Grounding
-    - TODO
+    - Target problem: The PR description omitted certain information, leading to unnecessary communication overhead between the reviewer and the author.
+    - Tool：PR Message Quality Assurance Bot
+    - Feature: After an author creates a PR, the bot summarizes unclear points or potential questions that reviewers might ask.
 
 2. Evaluation Plan Draft
     - Success definition: TBD — to be determined by CP1
-    - Target users: TODO
+    - Target users: Github users
     - Method: pre/post survey
-    - Minimum evidence threshold: TODO
+    - Minimum evidence threshold: TBD — to be determined by CP1
