@@ -14,7 +14,7 @@ This project is a bot that reviews incoming pull requests against a project's qu
 
 ### Tools and what we use them for
 
-Each of us picks the model and coding-agent harness that fits the task, since new models come out during the semester. Every PR records which model did what. Current defaults:
+Each of us picks the model and coding-agent harness that fits the task, since new models come out during the semester. Every PR fills in the "AI assistance" section of the PR template: the model, the files it generated, and what we changed. A PR with this section empty isn't merged. Current defaults:
 
 - We use **Claude models**, ideally Opus or Fable, to drive the session and write code and documentation. The final architecture call stays with us. They write well and keep changes in scope. Sonnet is cheaper, but its output is noticeably weaker.
 - We use **GPT models**, ideally Sol or Astra, for reviews and codebase analysis, because they are thorough. Their findings inform the merge decision but don't make it. They also write decent code, but they often investigate far more than the task needs and want to test and check everything.
@@ -27,12 +27,12 @@ Each of us picks the model and coding-agent harness that fits the task, since ne
 - **Prompt engineering log:** each of us keeps our own log with the prompts that shaped code, text or a decision in the repo, including the model and what we kept or changed. Quick syntax or debugging questions don't need an entry.
 - **Collaboration log:** review conversations, pairing sessions and how we split work go here, so it's clear later who did what together.
 - **DECISIONS.md:** every significant decision gets an entry, including ones that came out of AI output. An agent can write it up, but the decision, the reason and the rejected alternative come from the person under "Led by", who checks the entry before merge. [DECISIONS.md →](DECISIONS.md)
-- **Tests:** a short comment on each test case says whether a human or AI wrote it.
+- **Prompt and criteria changes:** a PR that changes the review prompt or `bot/criteria.json` shows `/review` results from at least two runs on the same sample PRs, before and after the change.
 
 ### How we handle disagreements about AI output
 
 - If we disagree on whether AI-generated code is ready to merge, the code steward decides and adds one sentence on why to DECISIONS.md.
-- Code is ready to merge when it passes the test suite, follows the PR template, and someone other than the person who generated it can explain it.
+- Code is ready to merge when it passes the test suite, follows the PR template, and a teammate other than the author has left a review comment that sums up the change in their own words.
 - For style questions we go with our linter and formatter configuration.
 
 ## Part 3: Evaluation plan (draft)
