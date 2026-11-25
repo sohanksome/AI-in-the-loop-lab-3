@@ -23,7 +23,7 @@ Each of us picks the model and coding-agent harness that fits the task, since ne
 
 ### How we document AI interactions
 
-- **Model attribution:** the last line of every PR body names each model, what it did and in which harness, for example `Generated with Claude Opus 5.5 for implementation in Claude Code.`
+- **AI commits:** every commit where AI wrote most of the change starts with `[AI]`, for example `[AI] add dry-run and dummy modes`.
 - **Prompt engineering log:** each of us keeps our own log with the prompts that shaped code, text or a decision in the repo, including the model and what we kept or changed. Quick syntax or debugging questions don't need an entry.
 - **Collaboration log:** review conversations, pairing sessions and how we split work go here, so it's clear later who did what together.
 - **DECISIONS.md:** every significant decision gets an entry, including ones that came out of AI output. An agent can write it up, but the decision, the reason and the rejected alternative come from the person under "Led by", who checks the entry before merge. [DECISIONS.md →](DECISIONS.md)
