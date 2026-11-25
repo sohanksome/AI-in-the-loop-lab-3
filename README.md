@@ -27,12 +27,12 @@ Each of us picks the model and coding-agent harness that fits the task, since ne
 - **Prompt engineering log:** each of us keeps our own log with the prompts that shaped code, text or a decision in the repo, including the model and what we kept or changed. Quick syntax or debugging questions don't need an entry.
 - **Collaboration log:** review conversations, pairing sessions and how we split work go here, so it's clear later who did what together.
 - **DECISIONS.md:** every significant decision gets an entry, including ones that came out of AI output. An agent can write it up, but the decision, the reason and the rejected alternative come from the person under "Led by", who checks the entry before merge. [DECISIONS.md →](DECISIONS.md)
-- **Prompt and criteria changes:** a PR that changes the review prompt or `bot/criteria.json` shows `/review` results from at least two runs on the same sample PRs, before and after the change.
+- **Tests:** a short comment on each test case says whether a human or AI wrote it.
 
 ### How we handle disagreements about AI output
 
 - If we disagree on whether AI-generated code is ready to merge, the code steward decides and adds one sentence on why to DECISIONS.md.
-- Code is ready to merge when it passes the test suite, follows the PR template, and a teammate other than the author has left a review comment that sums up the change in their own words.
+- Code is ready to merge when it passes the test suite, follows the PR template, and the author has reviewed it once and left a short comment that sums up the change, written without AI assistance.
 - For style questions we go with our linter and formatter configuration.
 
 ## Part 3: Evaluation plan (draft)
