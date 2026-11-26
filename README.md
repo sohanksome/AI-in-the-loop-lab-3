@@ -10,7 +10,9 @@
 
 This project is a bot that reviews incoming pull requests against a project's quality bar and keeps asking for changes until a PR meets it. Everything a script can check runs as a CI check. The bot uses an LLM for what a script can't judge, such as whether the description explains why a change is needed or whether the tests cover the changed behavior. The bot plays bad cop and pushes back whenever a quality criterion is missing. The maintainer plays good cop, discusses ideas, thanks contributors and merges their work. A dashboard that lists open PRs ready for human review may follow later and is not part of the evaluation.
 
-## Part 2: AI usage guidelines (draft)
+## Part 2: AI usage guidelines
+
+Updated for CP2 from our Week 3 draft, to match how we actually worked in Phase 2. [What changed since Week 3](#what-changed-since-week-3) lists each change and why.
 
 ### Tools and what we use them for
 
@@ -19,13 +21,15 @@ Each of us picks the model and coding-agent harness that fits the task, since ne
 - We use **Claude models**, ideally Opus or Fable, to drive the session and write code and documentation. The final architecture call stays with us. They write well and keep changes in scope. Sonnet is cheaper, but its output is noticeably weaker.
 - We use **GPT models**, ideally Sol or Astra, for reviews and codebase analysis, because they are thorough. Their findings inform the merge decision but don't make it. They also write decent code, but they often investigate far more than the task needs and want to test and check everything.
 - We use **GitHub Copilot** to autocomplete code and review PRs.
-- AI reviews every PR before the human review, and the current code steward approves and merges.
+- The code steward of the day reviews and merges every PR, never its author. An AI review from Copilot or a GPT model is optional input for the steward, not a step every PR goes through.
 
 ### How we document AI interactions
 
 - **AI commits:** every commit where AI wrote most of the change starts with `[AI]`, for example `[AI] add dry-run and dummy modes`.
-- **Prompt engineering log:** each of us keeps our own log with the prompts that shaped code, text or a decision in the repo, including the model and what we kept or changed. Quick syntax or debugging questions don't need an entry.
-- **Collaboration log:** review conversations, pairing sessions and how we split work go here, so it's clear later who did what together.
+- **Prompts:** the "Instruction given" line in the PR's AI assistance section records the instruction that shaped the change, and "What I changed afterwards" records what we kept or changed. Quick syntax or debugging questions don't need a mention.
+- **Reviews and handoffs:** review conversations happen in PR comments. Each code steward's slot gets a DECISIONS.md entry with a short handoff note, so it's clear later who reviewed and merged what.
+- **Coding agents:** [CLAUDE.md](CLAUDE.md) turns these rules into instructions for coding agents. Claude Code reads it on its own. With another harness, point the agent at it.
+- **The bot's prompt:** a PR that changes the bot's prompt, `bot/criteria.json` or the model updates the [prompt card](docs/prompt-card.md) in the same PR. Once the prompt test suite exists, the PR also shows its results before and after the change.
 - **DECISIONS.md:** every significant decision gets an entry, including ones that came out of AI output. An agent can write it up, but the decision, the reason and the rejected alternative come from the person under "Led by", who checks the entry before merge. [DECISIONS.md →](DECISIONS.md)
 - **Tests:** a short comment on each test case says whether a human or AI wrote it.
 
@@ -34,6 +38,17 @@ Each of us picks the model and coding-agent harness that fits the task, since ne
 - If we disagree on whether AI-generated code is ready to merge, the code steward decides and adds one sentence on why to DECISIONS.md.
 - Code is ready to merge when it passes the test suite, follows the PR template, and the author has reviewed it once and left a short comment that sums up the change, written without AI assistance.
 - For style questions we go with our linter and formatter configuration.
+
+### What changed since Week 3
+
+| Week 3 draft | Now | Why |
+| --- | --- | --- |
+| Every PR records which model did what. | The PR's AI assistance section names the model, the files it generated, the instruction and what we changed. If it's empty, the PR isn't merged. | Team 12's Week 12 review ([#10](https://github.com/sohanksome/AI-in-the-loop-lab-3/issues/10)) couldn't tell from PR #9's description what the AI did. |
+| Ready to merge when someone other than the author can explain it. | The author reviews the PR once and leaves a short summary comment, written without AI. | PR #9 is mostly AI-generated, and nothing in it showed the author could explain it without AI. |
+| The last line of every PR body names each model and harness. | Commits where AI wrote most of the change start with `[AI]`. | In PR #9 the `[AI]` tags were the only place that showed which parts the AI wrote. |
+| AI reviews every PR before the human review. | The steward reviews every PR. AI review is optional. | In Phase 2 no AI review ran before the steward's review. |
+| Each of us keeps a prompt engineering log and a collaboration log. | The PR's AI assistance section, PR comments and the steward entries in DECISIONS.md cover this. | None of us kept the logs. The PR is where a reviewer looks anyway. |
+| (new) | CLAUDE.md for coding agents, and a prompt card for the bot. | CP2 asks for both. |
 
 ## Part 3: Evaluation plan (draft)
 
