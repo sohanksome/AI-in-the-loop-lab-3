@@ -32,7 +32,7 @@
 ## 2026-11-27 — CP2 code steward rotation 1 review status
 **What:**
 1. **C1**: approved and merged
-2. **D2**: TBD
+2. **D2**: approved and merged
 
 **Led by:** Daniel Sticker (stickerdaniel)
 
@@ -44,6 +44,15 @@
 4. **C7**: TBD
 
 **Led by:** UG (UGisBusy)
+
+## 2026-11-28 — CP2 code steward rotation 3 review status
+**What:**
+1. **C6**: TBD
+2. **D1**: approved and merged
+3. **C8**: TBD
+4. **D4**: TBD
+
+**Led by:** sohanksome
 
 ## 2026-11-26 — Finish the current prototype for CP2, sandbox after
 **What:** We finish the review prototype from [#9](https://github.com/sohanksome/AI-in-the-loop-lab-3/pull/9) for CP2 and build the sandbox reviewer after CP2.\

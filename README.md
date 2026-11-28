@@ -31,8 +31,8 @@ All our CP2 tasks from [the CP2 plan](docs/cp2-plan.md), where the done criteria
 | 11/27 | **C4** `--save-context` and `--context-file`, [#23](https://github.com/sohanksome/PR-message-quality-assurance-bot/pull/23). | sohanksome | UG | C1 | ✓ |
 | 11/27 | **C6** Pass/fail rule per criterion and 3x repeat runs, closes [#11](https://github.com/sohanksome/AI-in-the-loop-lab-3/issues/11) | UG | sohanksome | C4 | ⬜ |
 | 11/27 | **C7** Tokens and cost in report.json, for [#12](https://github.com/sohanksome/AI-in-the-loop-lab-3/issues/12), [#27](https://github.com/sohanksome/PR-message-quality-assurance-bot/pull/27). | heyvrann | UG | C1 | ✓ |
-| 11/27 | **D1** CLAUDE.md and prompt card | UG | sohanksome | - | ⬜ |
-| 11/27 | **D2** AI guidelines, merge [#15](https://github.com/sohanksome/AI-in-the-loop-lab-3/pull/15) | UG | Daniel | - | ⬜ |
+| 11/27 | **D1** CLAUDE.md and prompt card | UG | sohanksome | - | ✓ |
+| 11/27 | **D2** AI guidelines, merge [#18](https://github.com/sohanksome/AI-in-the-loop-lab-3/pull/18) | UG | Daniel | - | ✓ |
 | 11/27 | **S2** Walking skeleton: merged PR link and docs/walking_skeleton.md | All | - | C1 | ⬜ |
 | 11/28 | **C5** Prompt suite runner, 10 frozen PRs with expected results | sohanksome | heyvrann | C4 | ⬜ |
 | 11/28 | **C8** Re-review updates the existing comment | heyvrann | sohanksome | C1 | ⬜ |
@@ -42,7 +42,7 @@ All our CP2 tasks from [the CP2 plan](docs/cp2-plan.md), where the done criteria
 | 11/29 | **S4** DECISIONS.md complete | All | - | - | ⬜ |
 | 11/29 | **S5** Contributor graph, zip, E3 upload | Daniel | - | S3, S4 | ⬜ |
 
-## Part 2: AI usage guidelines (draft)
+## AI usage guidelines
 
 ### Tools and what we use them for
 
@@ -55,19 +55,21 @@ Each of us picks the model and coding-agent harness that fits the task, since ne
 
 ### How we document AI interactions
 
-- **Model attribution:** the last line of every PR body names each model, what it did and in which harness, for example `Generated with Claude Opus 5.5 for implementation in Claude Code.`
-- **Prompt engineering log:** each of us keeps our own log with the prompts that shaped code, text or a decision in the repo, including the model and what we kept or changed. Quick syntax or debugging questions don't need an entry.
-- **Collaboration log:** review conversations, pairing sessions and how we split work go here, so it's clear later who did what together.
-- **DECISIONS.md:** every significant decision gets an entry, including ones that came out of AI output. An agent can write it up, but the decision, the reason and the rejected alternative come from the person under "Led by", who checks the entry before merge. [DECISIONS.md →](DECISIONS.md)
+- **Commits:** subjects follow `type(scope): Capitalized imperative`. When AI wrote most of the change, the message ends with a `Co-Authored-By:` line naming the model.
+- **Pull requests:** fill in the AI assistance section of the PR template: the tool and model, the files AI generated, and the instruction it was given. The author writes "What I changed afterwards" and the self-review comment without AI.
+- **DECISIONS.md:** AI may draft an entry, but the decision, the reason and the rejected alternative come from the person under "Led by", who checks it before merge.
 - **Tests:** a short comment on each test case says whether a human or AI wrote it.
+
+Coding agents get the same rules in [CLAUDE.md](CLAUDE.md), so they follow them without being told each time.
 
 ### How we handle disagreements about AI output
 
-- If we disagree on whether AI-generated code is ready to merge, the code steward decides and adds one sentence on why to DECISIONS.md.
-- Code is ready to merge when it passes the test suite, follows the PR template, and someone other than the person who generated it can explain it.
-- For style questions we go with our linter and formatter configuration.
+- **Two humans check every PR**, however much of it AI wrote: the author, who summarizes the change in the PR, and the code steward, who reviews it. Together they decide whether it's ready to merge.
+- **AI review comments are advice.** If the author thinks an AI reviewer is wrong, they reply on the PR saying why, and the steward decides whether it blocks the merge.
+- **If we still disagree**, the code steward decides and adds one sentence on why to DECISIONS.md.
+- **Ready to merge** means it passes the tests, follows the PR template, and someone other than the person who generated it can explain it.
 
-## Part 3: Evaluation plan (draft)
+## Evaluation plan (draft)
 
 ### Problem grounding
 
