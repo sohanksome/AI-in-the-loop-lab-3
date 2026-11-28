@@ -1,0 +1,46 @@
+{
+  "stickerdaniel/linkedin-mcp-server#1521": {
+    "problem_stated": "pass",
+    "problem_impact": "pass",
+    "problem_issue_link": "pass",
+    "summary_what": "pass",
+    "summary_matches_diff": "pass",
+    "verification_how": "pass",
+    "verification_tests": "pass",
+    "verification_media": "n/a",
+    "prompt_matches": "pass"
+  },
+  "stickerdaniel/linkedin-mcp-server#1561": {
+    "problem_stated": "fail",
+    "problem_impact": "n/a",
+    "problem_issue_link": "fail",
+    "summary_what": "fail",
+    "summary_matches_diff": "pass",
+    "verification_how": "pass",
+    "verification_tests": "pass",
+    "verification_media": "fail",
+    "prompt_matches": "n/a"
+  },
+  "stickerdaniel/linkedin-mcp-server#1415": {
+    "problem_stated": "pass",
+    "problem_impact": "pass",
+    "problem_issue_link": "fail",
+    "summary_what": "pass",
+    "summary_matches_diff": "pass",
+    "verification_how": "n/a",
+    "verification_tests": "n/a",
+    "verification_media": "pass",
+    "prompt_matches": "pass"
+  },
+  "stickerdaniel/linkedin-mcp-server#1526": {
+    "problem_stated": "pass",
+    "problem_impact": "pass",
+    "problem_issue_link": "pass",
+    "summary_what": "pass",
+    "summary_matches_diff": "pass",
+    "verification_how": "pass",
+    "verification_tests": "pass",
+    "verification_media": "n/a",
+    "prompt_matches": "pass"
+  }
+}

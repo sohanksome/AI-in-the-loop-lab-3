@@ -8,19 +8,29 @@
           "id": "problem_stated",
           "label": "States what is wrong or missing",
           "check": "llm",
-          "question": "Does the description have a Problem section that states what is wrong or missing before this change?"
+          "question": "Does the description state what is wrong or missing before this change?",
+          "fail_if": [
+            "No part of the description says what was wrong, missing or limited before this change. It can be said in any section, often the first bullet of the Summary. A link to an issue alone doesn't count, and neither does a description that only lists what the PR adds."
+          ]
         },
         {
           "id": "problem_impact",
           "label": "Explains who is affected or why it matters",
           "check": "llm",
-          "question": "Does the Problem section say who runs into the problem, or why it matters?"
+          "question": "Does the description say who runs into the problem, or why it matters?",
+          "fail_if": [
+            "The description doesn't say who runs into the problem or what goes wrong for them because of it, such as a failing call, a wrong result, a crash, wasted time or something they can't do."
+          ],
+          "na_if": "problem_stated fails, because the description states no problem."
         },
         {
           "id": "problem_issue_link",
           "label": "Links the related issue",
           "check": "script",
-          "question": "Does the description link the issue this PR belongs to, for example 'Closes #123' or an issue URL? A release or dependency PR may link the PRs it ships instead."
+          "question": "Does the description link the issue this PR belongs to, for example 'Closes #123' or an issue URL? A release or dependency PR may link the PRs it ships instead.",
+          "fail_if": [
+            "The description names no issue that this PR closes or works on, neither as '#N' nor as an issue URL. 'Closes', 'Fixes', 'Resolves', 'Refs', 'Part of' and a sentence naming the issue all count. A '#N' that only mentions another PR or issue for comparison doesn't count. A release or dependency PR that lists the PRs it ships passes."
+          ]
         }
       ]
     },
@@ -38,13 +48,23 @@
           "id": "summary_what",
           "label": "Describes what the change does",
           "check": "llm",
-          "question": "Does the Summary explain what the change does, so a reviewer understands it before reading the diff?"
+          "question": "Does the Summary explain what the change does, so a reviewer understands it before reading the diff?",
+          "fail_if": [
+            "The Summary only restates the title or names the feature, for example 'Add pagination to search_people tool', and says nothing about what behaves differently after the change.",
+            "The Summary is so vague that a reviewer couldn't name the tool, function, module or file the change is in."
+          ],
+          "na_if": "There is no Summary or Solution heading, or its section is empty or only the template placeholder '-'. The script check summary_filled reports that."
         },
         {
           "id": "summary_matches_diff",
           "label": "Matches the diff, nothing major left out",
           "check": "llm",
-          "question": "Does the Summary match the diff? Fail if the diff makes a significant change the Summary doesn't mention, or if the Summary claims something the diff doesn't do."
+          "question": "Does the Summary match the diff?",
+          "fail_if": [
+            "The diff changes behavior in a file, such as new or changed logic, parameters, defaults, configuration, a CLI option or an API, and the Summary mentions neither that file nor the feature it belongs to. Renames, formatting, comments, typo fixes, tests, generated files, fixtures and lockfiles never count.",
+            "The Summary claims a change that no file in the diff makes."
+          ],
+          "na_if": "There is no Summary or Solution heading, or its section is empty or only the template placeholder '-'. The script check summary_filled reports that."
         }
       ]
     },
@@ -62,19 +82,35 @@
           "id": "verification_how",
           "label": "Says how the change was checked",
           "check": "llm",
-          "question": "Does the Verification section say how the change was checked, such as the tests, commands or manual steps that were run, and their result?"
+          "question": "Does the Verification section say how the change was checked, such as the tests, commands or manual steps that were run, and their result?",
+          "fail_if": [
+            "The Verification section names no concrete check: no test name or test file, no command, and no manual step that was carried out.",
+            "The section only says a check is planned or expected, such as 'will test', 'should work' or 'TODO', not that it was done.",
+            "The section names checks but never says how they turned out, such as passed, failed or what was observed."
+          ],
+          "na_if": "There is no Verification heading, or its section is empty or only the template placeholder '-'. The script check verification_filled reports that."
         },
         {
           "id": "verification_tests",
           "label": "Tests cover the changed behavior",
           "check": "llm",
-          "question": "Do tests added or changed in this PR cover the behavior the PR changes? Follow the contributing guide on where tests belong. Answer n/a if the PR changes no behavior, for example docs, CI configuration or formatting only."
+          "question": "Do tests added or changed in this PR cover the behavior the PR changes?",
+          "fail_if": [
+            "The diff changes behavior in a source file, and the PR adds or changes no test file.",
+            "The PR changes test files, but none of them exercises the function, tool or code path whose behavior changed. For example, they only test another module or only regenerate fixtures."
+          ],
+          "na_if": "The diff changes no behavior: it only changes docs, Markdown files, comments, formatting, type hints, CI configuration or dependency versions."
         },
         {
           "id": "verification_media",
           "label": "Before/after screenshots for changed rendered pages",
           "check": "script",
-          "question": "If the PR changes a page GitHub renders, such as README.md or another Markdown doc, does the description include before and after screenshots of each changed section? Answer n/a if no rendered page changed."
+          "question": "If the PR changes a rendered page, does the description include before and after screenshots of each changed section? Rendered pages are any README.md (in any folder), docs/docker-hub.md and the long_description in manifest.json.",
+          "fail_if": [
+            "The description has no image at all: no Markdown image, no <img> tag and no uploaded attachment link.",
+            "A changed section of a rendered page has no before and after image that a reader can tell apart, for example by the words Before and After in a label or a table column."
+          ],
+          "na_if": "The PR changes no rendered page: no README.md in any folder, not docs/docker-hub.md, and not the long_description in manifest.json. Other Markdown files, such as AGENTS.md, docs or changelog fragments, don't count."
         }
       ]
     },
@@ -92,7 +128,12 @@
           "id": "prompt_matches",
           "label": "Prompt matches what the PR does",
           "check": "llm",
-          "question": "Is the synthetic prompt a short request that, given to a coding agent, would plausibly lead to this PR's change?"
+          "question": "Is the synthetic prompt a short request that, given to a coding agent, would plausibly lead to this PR's change?",
+          "fail_if": [
+            "Following the prompt would lead to a clearly different change: a different feature, tool or file, or the opposite behavior.",
+            "The prompt leaves out the PR's main change, so a coding agent given only the prompt wouldn't make it."
+          ],
+          "na_if": "There is no Synthetic prompt heading, or its first quote is empty. The script check prompt_filled reports that."
         }
       ]
     }

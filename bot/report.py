@@ -51,9 +51,13 @@ CRITERIA_FILE = Path(__file__).with_name("criteria.json")
 CHECK_TYPES = {"llm", "script"}
 
 
-def load_parts():
-    """Load criteria.json and fail early with a clear message if it's malformed."""
-    parts = json.loads(CRITERIA_FILE.read_text(encoding="utf-8"))["parts"]
+def load_parts(path=CRITERIA_FILE):
+    """Load criteria.json and fail early with a clear message if it's malformed.
+
+    A point Claude judges also has "fail_if", a list of conditions that make it
+    fail, and may have "na_if", the one case where it doesn't apply.
+    claude_review.build_system checks that every point it sends has fail_if."""
+    parts = json.loads(path.read_text(encoding="utf-8"))["parts"]
     if not parts:
         raise ValueError("criteria.json has no parts")
 
@@ -69,6 +73,11 @@ def load_parts():
             for field in ("label", "question"):
                 if not point.get(field):
                     raise ValueError(f"Point '{point['id']}' in criteria.json has no '{field}'")
+            fail_if = point.get("fail_if", [])
+            if not isinstance(fail_if, list) or not all(isinstance(c, str) and c.strip() for c in fail_if):
+                raise ValueError(f"Point '{point['id']}' in criteria.json: 'fail_if' must be a list of non-empty strings")
+            if "na_if" in point and not (isinstance(point["na_if"], str) and point["na_if"].strip()):
+                raise ValueError(f"Point '{point['id']}' in criteria.json: 'na_if' must be a non-empty string")
             seen.add(point["id"])
     return parts
 

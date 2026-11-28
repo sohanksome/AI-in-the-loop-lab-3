@@ -45,6 +45,20 @@
 
 **Led by:** UG (UGisBusy)
 
+## 2026-11-27 — CP2 code steward rotation 3 review status
+**What:**
+1. **C6**: approved and merged
+2. **D1**: TBD
+3. **C8**: TBD
+4. **D4**: TBD
+
+**Led by:** sohanksome
+
+## 2026-11-27 — Keep the evaluation contexts on Google Drive (C6)
+**What:** The saved PR contexts in `bot/evaluation/contexts/` and the run results in `bot/evaluation/out/` stay out of git and are shared on Google Drive. `repeat.py` runs only the contexts that are present.\
+**Why:** The 4 contexts are about 780 KB of copied PR data, and a reviewer only needs them to rerun the evaluation.\
+**Alternative rejected:** Committing them, or trimming them, which would measure a prompt the bot never sends.\
+**Led by:** UG (UGisBusy)
 ## 2026-11-26 — Finish the current prototype for CP2, sandbox after
 **What:** We finish the review prototype from [#9](https://github.com/sohanksome/AI-in-the-loop-lab-3/pull/9) for CP2 and build the sandbox reviewer after CP2.\
 **Why:** We liked the sandbox idea, because the current approach doesn't scale well. The prototype from [#9](https://github.com/sohanksome/AI-in-the-loop-lab-3/pull/9) already exists, and CP2 is due Sunday.\

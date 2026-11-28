@@ -1,2 +1,4 @@
 __pycache__/
 .vscode
+bot/evaluation/out/
+bot/evaluation/contexts/*.json

@@ -2,7 +2,9 @@
 #
 # The prompt and the JSON schema are built from criteria.json, so adding,
 # removing or rewording a point needs no code change here. review.py passes
-# only the points that script_checks.py does not check itself.
+# only the points that script_checks.py does not check itself. Each of those
+# points has "fail_if" conditions (and may have "na_if") in criteria.json, and
+# the prompt tells Claude to decide the status by them alone (issue #11).
 #
 # Claude returns data only (pass/fail/n/a plus short text per point). report.py
 # turns that data into the PR comment and computes the score.
@@ -26,7 +28,9 @@ MAX_TOKENS = 64_000
 # body can't end the description early and pose as part of the prompt. Any
 # other "<" (code such as `a < b`, other HTML tags) is left as it is.
 _PROMPT_TAG = re.compile(
-    r"<(?=/?(?:pull_request|title|description|commits|referenced_issues|issue|changed_files|file|diff" r"|new_content|repository_file_tree|omitted_context|points|point|repository_guides|guide)[\s/>])",
+    r"<(?=/?(?:pull_request|title|description|commits|referenced_issues|issue|changed_files|file|diff"
+    r"|new_content|repository_file_tree|omitted_context|points|point|question|fail_if|na_if"
+    r"|repository_guides|guide)[\s/>])",
     re.IGNORECASE,
 )
 
@@ -48,14 +52,24 @@ point, whether it passes.
 
 You are the strict part of the review: the maintainer is friendly and decides \
 on the merge; your job is to say clearly what is missing so the contributor can \
-fix it themselves. Be fair. Fail a point only when it is actually missing or \
-wrong, not over style or wording. When the evidence is unclear, pass the point \
-and say what you could not confirm.
+fix it themselves.
+
+Each point has a <question> that says what it is about, a <fail_if> list of \
+conditions, and an <na_if> that says when it doesn't apply. The conditions \
+decide the status, so two reviews of the same PR give the same answer. Decide \
+each point in this order:
+1. If its <na_if> holds, the status is "n/a". When <na_if> is "never", the \
+status is always "pass" or "fail".
+2. Otherwise, if any condition in its <fail_if> holds, the status is "fail".
+3. Otherwise the status is "pass".
+Never fail a point for a reason that is not one of its conditions, such as \
+style or wording. If the PR doesn't give enough evidence to tell whether a \
+condition holds, treat it as not holding, and say what you could not confirm.
 
 For each point return:
-- status: "pass", "fail", or "n/a" (only when the point does not apply to this PR).
+- status: "pass", "fail", or "n/a", decided as above.
 - explanation: one or two short sentences with concrete evidence, such as a \
-section name, file or function.
+section name, file or function. For "fail", say which condition holds.
 - requested_change: for "fail", one concrete thing the contributor should do. \
 Empty for "pass" and "n/a".
 
@@ -79,7 +93,15 @@ Use them to understand what the project expects.
 </repository_guides>
 """
 
-POINT_TEMPLATE = '<point id="{id}" part="{part}">{question}</point>'
+POINT_TEMPLATE = """\
+<point id="{id}" part="{part}">
+<question>{question}</question>
+<fail_if>
+{fail_if}
+</fail_if>
+<na_if>{na_if}</na_if>
+</point>"""
+NA_NEVER = "never"  # <na_if> of a point without "na_if" in criteria.json
 GUIDE_TEMPLATE = '<guide kind="{kind}" path="{path}">\n{text}\n</guide>'
 
 USER_TEMPLATE = """\
@@ -140,8 +162,24 @@ def _all_points(parts):
     return [(part, point) for part in parts for point in part["points"]]
 
 
+def _point(part, point):
+    if not point.get("fail_if"):
+        # Without conditions Claude falls back on its own judgment, which is
+        # what made two reviews of the same PR disagree (issue #11).
+        raise ValueError(f"Point '{point['id']}' goes to Claude but has no 'fail_if' in criteria.json")
+    return POINT_TEMPLATE.format(
+        id=point["id"],
+        part=part["title"],
+        question=point["question"],
+        fail_if="\n".join(f"- {condition}" for condition in point["fail_if"]),
+        na_if=point.get("na_if", NA_NEVER),
+    )
+
+
 def build_system(parts, context):
-    points = "\n".join(POINT_TEMPLATE.format(id=point["id"], part=part["title"], question=point["question"]) for part, point in _all_points(parts))
+    """The system prompt for the points in `parts`, which must all have fail_if.
+    review.py passes only the points script_checks.py leaves to Claude."""
+    points = "\n".join(_point(part, point) for part, point in _all_points(parts))
     guides = "\n\n".join(GUIDE_TEMPLATE.format(kind=kind, path=_attr(guide["path"]), text=_text(guide["text"])) for kind, guide in context["guides"].items()) or "(none found)"
     return SYSTEM_TEMPLATE.format(repo=context["repo"], points=points, guides=guides)
 

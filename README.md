@@ -29,7 +29,7 @@ All our CP2 tasks from [the CP2 plan](docs/cp2-plan.md), where the done criteria
 | 11/26 | **C2** Reject repeated results for a point | Daniel | UG | C1 | ✓ |
 | 11/27 | **C3** Check filled sections in Python | Daniel | UG | C1 | ✓ |
 | 11/27 | **C4** `--save-context` and `--context-file`, [#23](https://github.com/sohanksome/PR-message-quality-assurance-bot/pull/23). | sohanksome | UG | C1 | ✓ |
-| 11/27 | **C6** Pass/fail rule per criterion and 3x repeat runs, closes [#11](https://github.com/sohanksome/AI-in-the-loop-lab-3/issues/11) | UG | sohanksome | C4 | ⬜ |
+| 11/27 | **C6** Pass/fail rule per criterion and 3x repeat runs, fix part of [#11](https://github.com/sohanksome/AI-in-the-loop-lab-3/issues/11), so it stays open. [#25](https://github.com/sohanksome/PR-message-quality-assurance-bot/pull/25) | UG | sohanksome | C4 | ✓ |
 | 11/27 | **C7** Tokens and cost in report.json, for [#12](https://github.com/sohanksome/AI-in-the-loop-lab-3/issues/12), [#27](https://github.com/sohanksome/PR-message-quality-assurance-bot/pull/27). | heyvrann | UG | C1 | ✓ |
 | 11/27 | **D1** CLAUDE.md and prompt card | UG | sohanksome | - | ⬜ |
 | 11/27 | **D2** AI guidelines, merge [#15](https://github.com/sohanksome/AI-in-the-loop-lab-3/pull/15) | UG | Daniel | - | ⬜ |
