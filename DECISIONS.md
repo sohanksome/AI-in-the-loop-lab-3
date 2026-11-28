@@ -56,3 +56,14 @@
 **Why:** Issue [#12](https://github.com/sohanksome/PR-message-quality-assurance-bot/issues/12) needs the cost per review on PRs of different sizes before we cut anything, and the Action only has a normal API key. A model without a listed price records `usd: null` instead of failing the review.\
 **Alternative rejected:** Reading the cost from the Usage and Cost API, which needs an admin key and reports per day, not per request; estimating from prompt characters, which misses output and thinking tokens.\
 **Led by:** heyvrann
+
+## 2026-11-28 — CP2 code steward rotation 3 review status
+**What:**
+1. **[#22](https://github.com/sohanksome/PR-message-quality-assurance-bot/pull/22)** (record the CP2 scope and rotation): approved and merged
+2. **[#26](https://github.com/sohanksome/PR-message-quality-assurance-bot/pull/26)** (handle an empty commit message): merged after Daniel's approval
+3. **C6** ([#25](https://github.com/sohanksome/PR-message-quality-assurance-bot/pull/25)): changes requested, waiting for UG
+4. **D1**: TBD
+5. **C8**: TBD
+6. **D4**: TBD
+
+**Led by:** sohanksome
