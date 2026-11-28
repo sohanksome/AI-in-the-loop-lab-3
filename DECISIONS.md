@@ -61,9 +61,9 @@
 **What:**
 1. **[#22](https://github.com/sohanksome/PR-message-quality-assurance-bot/pull/22)** (record the CP2 scope and rotation): approved and merged
 2. **[#26](https://github.com/sohanksome/PR-message-quality-assurance-bot/pull/26)** (handle an empty commit message): merged after Daniel's approval
-3. **C6** ([#25](https://github.com/sohanksome/PR-message-quality-assurance-bot/pull/25)): changes requested, waiting for UG
-4. **D1**: TBD
-5. **C8**: TBD
-6. **D4**: TBD
+3. **C6** ([#25](https://github.com/sohanksome/PR-message-quality-assurance-bot/pull/25)): reviewed and requested changes, because a `fail_if` example quotes one of the evaluated PRs. Not merged, waiting for UG.
+4. **D2** ([#18](https://github.com/sohanksome/PR-message-quality-assurance-bot/pull/18)): already approved, but not merged because of a merge conflict for UG to resolve
+5. **D3** ([#28](https://github.com/sohanksome/PR-message-quality-assurance-bot/pull/28)): my own PR, left for heyvrann to review and merge
+6. **D1**, **C8**, **D4**: no PR was ready during the slot
 
 **Led by:** sohanksome
