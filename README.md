@@ -36,7 +36,7 @@ All our CP2 tasks from [the CP2 plan](docs/cp2-plan.md), where the done criteria
 | 11/27 | **S2** Walking skeleton: merged PR link and docs/walking_skeleton.md | All | - | C1 | ⬜ |
 | 11/28 | **C5** Prompt suite runner, 10 frozen PRs with expected results | sohanksome | heyvrann | C4 | ⬜ |
 | 11/28 | **C8** Re-review updates the existing comment | heyvrann | sohanksome | C1 | ⬜ |
-| 11/28 | **D3** Design rationale with 2 user tests outside the team | sohanksome | heyvrann | C1 | ⬜ |
+| 11/28 | **D3** Design rationale with 2 user tests outside the team, [#28](https://github.com/sohanksome/PR-message-quality-assurance-bot/pull/28). | sohanksome | heyvrann | C1 | ✓ |
 | 11/28 | **D4** Interim evaluation report | heyvrann | sohanksome | C5, C6, C7 | ⬜ |
 | 11/28 | **S3** Merge day at 14:00: merge or close what is still open, fresh clone | Steward | - | - | ⬜ |
 | 11/29 | **S4** DECISIONS.md complete | All | - | - | ⬜ |
