@@ -45,15 +45,6 @@
 
 **Led by:** UG (UGisBusy)
 
-## 2026-11-27 — CP2 code steward rotation 3 review status
-**What:**
-1. **C6**: approved and merged
-2. **D1**: TBD
-3. **C8**: TBD
-4. **D4**: TBD
-
-**Led by:** sohanksome
-
 ## 2026-11-27 — Keep the evaluation contexts on Google Drive (C6)
 **What:** The saved PR contexts in `bot/evaluation/contexts/` and the run results in `bot/evaluation/out/` stay out of git and are shared on Google Drive. `repeat.py` runs only the contexts that are present.\
 **Why:** The 4 contexts are about 780 KB of copied PR data, and a reviewer only needs them to rerun the evaluation.\
@@ -75,7 +66,7 @@
 **What:**
 1. **[#22](https://github.com/sohanksome/PR-message-quality-assurance-bot/pull/22)** (record the CP2 scope and rotation): approved and merged
 2. **[#26](https://github.com/sohanksome/PR-message-quality-assurance-bot/pull/26)** (handle an empty commit message): merged after Daniel's approval
-3. **C6** ([#25](https://github.com/sohanksome/PR-message-quality-assurance-bot/pull/25)): reviewed and requested changes, because a `fail_if` example quotes one of the evaluated PRs. Not merged, waiting for UG.
+3. **C6** ([#25](https://github.com/sohanksome/PR-message-quality-assurance-bot/pull/25)): first requested changes, because a `fail_if` example quotes one of the evaluated PRs, then approved and merged
 4. **D2** ([#18](https://github.com/sohanksome/PR-message-quality-assurance-bot/pull/18)): already approved, but not merged because of a merge conflict for UG to resolve
 5. **D3** ([#28](https://github.com/sohanksome/PR-message-quality-assurance-bot/pull/28)): my own PR, left for heyvrann to review and merge
 6. **D1**, **C8**, **D4**: no PR was ready during the slot
