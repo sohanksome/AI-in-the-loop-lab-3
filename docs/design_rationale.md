@@ -75,55 +75,81 @@ Each review records its tokens and cost in `report.json` (C7). A PR's context ca
 
 ## User tests outside the team
 
-> [!WARNING]
-> **PLACEHOLDER — NOT REAL RESULTS.** Every cell marked `[PLACEHOLDER]` below is an invented example showing what to write. Replace each one with what the real testers said, and delete this box, before this file goes into the CP2 zip.
+Two people outside Group 24 tried the bot on 28 November 2026. We call them Tester A and Tester B.
 
-Two people who are not in Group 24 used the bot on a real pull request. We watched, asked them to think aloud, and wrote down what they said.
+### How we ran them
 
-### Who and how
+We shared a test page with each tester instead of meeting live. The page showed two real pull requests from linkedin-mcp-server, each with a plain-language explanation of the change and the description as the contributor wrote it:
 
-| | Tester A | Tester B |
-| --- | --- | --- |
-| Role | [PLACEHOLDER] Has contributed small fixes to two open-source Python projects | [PLACEHOLDER] CS student, has opened PRs only in course projects |
-| GitHub experience | [PLACEHOLDER] About 3 years, reviews PRs at work | [PLACEHOLDER] About 1 year, has never had an outside review |
-| Date and format | [PLACEHOLDER] 28 Nov 2026, video call | [PLACEHOLDER] 28 Nov 2026, in person |
-| PR they used | [PLACEHOLDER] Copy of linkedin-mcp-server #1561 (one-line Summary, no prompt) | [PLACEHOLDER] Copy of linkedin-mcp-server #1530 (complete description) |
+- **PR A, [#1561](https://github.com/stickerdaniel/linkedin-mcp-server/pull/1561):** pagination for the people search. A one-line Summary, a one-line Verification and no Synthetic prompt. The bot scored it 35/100 and asked for 5 changes.
+- **PR B, [#1530](https://github.com/stickerdaniel/linkedin-mcp-server/pull/1530):** a `max_scrolls` option for the feed. A complete description. The bot scored it 100/100 with nothing to fix.
 
-**Script, about 20 minutes each:**
+For each PR, the page asked *"If you were the maintainer, what would you ask this contributor to add or change before merging?"* and kept the bot's comment hidden behind a button until then. A second set of questions followed, about the bot's requests, its tone and whether it was worth the interruption. Both testers sent back written answers to the first question for both PRs. They did not answer the second set, so we have no data on tone, usefulness ratings or bot-versus-maintainer preference. Their full answers are in the [appendix](#appendix-the-testers-answers).
 
-1. **Context (2 min).** "This bot reviews pull request descriptions for a project. It doesn't decide whether to merge; a maintainer does. We are testing the bot, not you."
-2. **Before the review (3 min).** Show them the PR they will use. Ask: "If you were the maintainer, what would you ask this contributor to add?" Write down their answer.
-3. **Read the comment (5 min).** A team member comments `/review`. The tester reads the bot's comment out loud and thinks aloud.
-4. **Act on it (5 min).** "You are the contributor now. What would you change in your PR because of this comment?" They edit the description, or say what they would change.
-5. **Questions (5 min):**
-   - Which request was the most useful? Which one was wrong or unclear?
-   - Did anything in the tone bother you?
-   - Would you rather get this comment or wait for the maintainer? Why?
-   - On a scale of 1 to 5, how worth the interruption was this comment?
+### What they asked for, next to what the bot asked for
 
-### Results
+**PR A (#1561), the weak description:**
 
-| Question | Tester A | Tester B |
-| --- | --- | --- |
-| What they would have asked for before seeing the bot | [PLACEHOLDER] "Explain what the pagination does and how you tested it." | [PLACEHOLDER] Nothing; thought the description looked complete |
-| Bot requests they understood without help | [PLACEHOLDER] The Summary, Verification and Synthetic prompt requests | [PLACEHOLDER] All of them; the bot asked for nothing on this PR |
-| Bot requests they found wrong or unclear | [PLACEHOLDER] "Link the related issue": unsure whether an issue exists for this feature | [PLACEHOLDER] The score; asked why a PR with no requests isn't 100/100 when points are n/a |
-| What they changed, or would change, because of the comment | [PLACEHOLDER] Rewrote the Summary to name the new `page` argument and added a manual test result | [PLACEHOLDER] Nothing |
-| Comments on tone | [PLACEHOLDER] "Direct, but fine, because it says the maintainer decides." | [PLACEHOLDER] "Feels like a checklist, not a person. That's OK." |
-| Bot comment or wait for the maintainer, and why | [PLACEHOLDER] Bot comment: "I'd fix it before a human ever looks." | [PLACEHOLDER] Both: wants the bot first, but the maintainer's thanks matters more |
-| Worth the interruption (1–5) | [PLACEHOLDER] 4 | [PLACEHOLDER] 3 |
+| Request | Tester A | Tester B | Bot |
+| --- | --- | --- | --- |
+| Say what was limited before (only the first page of results) | ✓ | ✓, and how it affects users | ✓ fail |
+| Describe how the new `page` parameter works | ✓ | ✓, including whether it's optional | ✓ fail |
+| Show concrete test results: different pages return different people | ✓ | ✓ | ✗ passed both Verification points |
+| Link the related issue | ✓, if one exists | | ✓ fail |
+| Add a screenshot of the changed README | | ✓ | ✓ fail |
+| Add a Synthetic prompt | | | ✓ fail |
+
+**PR B (#1530), the complete description:** both testers found it ready to merge, as did the bot. Both praised the problem statement and the test coverage, including the boundary tests for invalid `max_scrolls` values. Both suggested one thing the bot doesn't check: **a short usage example** showing how a caller passes `max_scrolls` to `get_feed`.
 
 ### What we learned and what we will change
 
-_To fill in after both tests: at most three findings, each with the design decision above it touches and what we will change, or why we keep it._
-
-1. [PLACEHOLDER] **Missing issues are confusing (decision 5).** Tester A didn't know whether to open an issue just to satisfy the bot. We will say in the requested change that a sentence explaining why there is no issue is enough.
-2. [PLACEHOLDER] **The score needs explaining (decision 7).** Tester B didn't understand how n/a points affect the score. We will add one line under the score saying n/a points don't count.
-3. [PLACEHOLDER] **The bad-cop split works (decision 1).** Both testers accepted the direct tone because the comment says a maintainer decides. We keep it.
+1. **The checklist matches what reviewers ask for (decision 5).** On PR A, every request the testers shared about the problem, the summary and the issue link was also a bot request, and both testers judged PR B ready, like the bot. We keep the checklist as it is.
+2. **The bot is more lenient than people about verification.** Both testers wanted concrete evidence on PR A that different page numbers return different results. The bot passed "Says how the change was checked" because the description names a manual step and what was observed. Under C6's rules, that is enough. We will tighten `verification_how` so a vague check with no concrete result fails, then measure the change with the C5 prompt suite before merging it.
+3. **Project-specific points aren't obvious to outsiders (decisions 1 and 5).** Neither tester asked for a Synthetic prompt; it is a linkedin-mcp-server convention that a newcomer wouldn't expect. Both asked for a usage example, which no point covers. We will add one sentence to the Synthetic prompt request explaining why the project asks for it. We won't add a usage-example point yet; first we want to see whether maintainers ask for one on other PRs.
 
 ## Known limits
 
 - **One test repository.** All points and rules were tuned on linkedin-mcp-server, whose PR template has no Problem section. Other projects may need different points.
 - **Claude is not fully stable.** In C6's measurement ([#25](https://github.com/sohanksome/PR-message-quality-assurance-bot/pull/25)), 35 of 36 points gave the same status in 3 runs; `problem_impact` on linkedin-mcp-server #1415 still flips. A contributor who asks twice can get different answers.
 - **The maintainer is on our team**, so they influence both the bot's rules and the metrics we judge it by.
+- **Two written tests, not live sessions.** We couldn't watch the testers read the bot's comment, and they skipped the follow-up questions. Their wording is also close to the bot's, for example about the `page` parameter and the search URL, so we can't rule out that they read the bot's comment, or used an AI tool, before writing their own answer.
 - **No checks of the code itself.** The bot judges the description and whether tests exist, not whether the code works. That needs the sandbox planned after CP2.
+
+## Appendix: the testers' answers
+
+Copied as the testers wrote them. In each answer, the first part is about PR A (#1561) and the second about PR B (#1530).
+
+### Tester A
+
+> The implementation looks useful, but the PR description could provide more details.
+>
+> 1. **Problem:** Please explain the limitation of the original implementation. For example, `search_people` could only return the first page of search results, preventing users from accessing additional results.
+>
+> 2. **Summary:** Describe how the new pagination feature works, including the new optional `page` parameter and how it affects the search URL.
+>
+> 3. **Verification:** Please provide more specific testing details, such as the test cases used to verify that different page values return different results.
+>
+> 4. **Related issue:** If this PR addresses an existing issue, please include a link to it.
+>
+> This PR looks well documented and the implementation appears to be thoroughly tested. The description clearly explains the original problem, the proposed solution, and the verification process.
+>
+> I particularly appreciate the detailed test coverage, including boundary-value testing for invalid `max_scrolls` values and the full test suite results.
+>
+> I don't have any major concerns before merging. One minor suggestion would be to consider adding an example showing how callers can use the new `max_scrolls` parameter in practice. This could make the new functionality easier for other developers to understand.
+
+### Tester B
+
+> The PR introduces a useful improvement to the `search_people` tool. However, I would like to see a clearer explanation of the motivation behind this change.
+>
+> 1. **Problem:** Explain why returning only the first page of search results is insufficient and how this limitation affects users.
+> 2. **Summary:** Clarify how contributors can use the new pagination functionality and whether the page parameter is optional.
+> 3. **Verification:** Include more detailed testing results. For example, demonstrate that requesting different page numbers produces different sets of search results.
+> 4. **Documentation:** Since the README has been updated, please consider providing a screenshot to illustrate the documentation changes.
+>
+> The PR description is comprehensive and clearly explains both the motivation and implementation.
+>
+> The addition of `max_scrolls` seems reasonable, especially since it gives users more control over the trade-off between the number of retrieved posts and execution time.
+>
+> The verification section is also convincing, with detailed test cases covering normal behavior, invalid inputs, and the parameter's integration across different components.
+>
+> One suggestion is to include a brief usage example demonstrating how a caller can specify `max_scrolls` when using `get_feed`. Otherwise, I don't see any major issues with this PR.
