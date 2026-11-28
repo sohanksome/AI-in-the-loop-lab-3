@@ -11,8 +11,13 @@
 #     # One PR, 5 runs: recheck an unstable point after tightening its rule.
 #     python bot/evaluation/repeat.py --run --runs 5 bot/evaluation/contexts/pr1561.json
 #
-# Only the 4 PRs in expected.json are checked (linkedin-mcp-server #1415,
-# #1521, #1526, #1561). A context for any other PR is ignored.
+# Only the 10 PRs in expected.json are checked (linkedin-mcp-server #1415,
+# #1480, #1511, #1521, #1523, #1526, #1530, #1548, #1557, #1561). A context for
+# any other PR is ignored.
+#
+# For the prompt suite (C5), one run per PR lists every point that disagrees
+# with expected.json, marked ✗, and the per-point table counts them:
+#     python bot/evaluation/repeat.py --run --runs 1 --label suite
 #
 # Contexts (from `review.py --save-context`) live on Google Drive,
 # not in git. Put them in bot/evaluation/contexts/; only those present are run.

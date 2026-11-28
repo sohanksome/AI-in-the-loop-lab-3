@@ -42,5 +42,71 @@
     "verification_tests": "pass",
     "verification_media": "n/a",
     "prompt_matches": "pass"
+  },
+  "stickerdaniel/linkedin-mcp-server#1480": {
+    "problem_stated": "fail",
+    "problem_impact": "n/a",
+    "problem_issue_link": "fail",
+    "summary_what": "n/a",
+    "summary_matches_diff": "n/a",
+    "verification_how": "n/a",
+    "verification_tests": "pass",
+    "verification_media": "n/a",
+    "prompt_matches": "n/a"
+  },
+  "stickerdaniel/linkedin-mcp-server#1511": {
+    "problem_stated": "pass",
+    "problem_impact": "pass",
+    "problem_issue_link": "fail",
+    "summary_what": "pass",
+    "summary_matches_diff": "pass",
+    "verification_how": "pass",
+    "verification_tests": "pass",
+    "verification_media": "n/a",
+    "prompt_matches": "pass"
+  },
+  "stickerdaniel/linkedin-mcp-server#1523": {
+    "problem_stated": "pass",
+    "problem_impact": "pass",
+    "problem_issue_link": "pass",
+    "summary_what": "pass",
+    "summary_matches_diff": "pass",
+    "verification_how": "pass",
+    "verification_tests": "pass",
+    "verification_media": "n/a",
+    "prompt_matches": "pass"
+  },
+  "stickerdaniel/linkedin-mcp-server#1530": {
+    "problem_stated": "pass",
+    "problem_impact": "pass",
+    "problem_issue_link": "pass",
+    "summary_what": "pass",
+    "summary_matches_diff": "pass",
+    "verification_how": "pass",
+    "verification_tests": "pass",
+    "verification_media": "n/a",
+    "prompt_matches": "pass"
+  },
+  "stickerdaniel/linkedin-mcp-server#1548": {
+    "problem_stated": "fail",
+    "problem_impact": "n/a",
+    "problem_issue_link": "fail",
+    "summary_what": "n/a",
+    "summary_matches_diff": "n/a",
+    "verification_how": "n/a",
+    "verification_tests": "n/a",
+    "verification_media": "n/a",
+    "prompt_matches": "n/a"
+  },
+  "stickerdaniel/linkedin-mcp-server#1557": {
+    "problem_stated": "pass",
+    "problem_impact": "pass",
+    "problem_issue_link": "fail",
+    "summary_what": "pass",
+    "summary_matches_diff": "pass",
+    "verification_how": "pass",
+    "verification_tests": "pass",
+    "verification_media": "n/a",
+    "prompt_matches": "pass"
   }
 }

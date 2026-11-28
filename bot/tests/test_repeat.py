@@ -280,11 +280,12 @@ class AvailableContextsTest(NoRealCalls):
 
 class ExpectedFileTest(unittest.TestCase):
     # AI-written: expected.json names a status for every point Claude judges,
-    # for the 4 sample PRs, and each status is one Claude can return. The
+    # for the 10 suite PRs (C5), and each status is one Claude can return. The
     # context files may be missing, since they are kept on Google Drive.
     def test_expected_covers_every_llm_point(self):
         expected = repeat.load_expected(repeat.DEFAULT_EXPECTED)
-        self.assertEqual(sorted(expected), [f"stickerdaniel/linkedin-mcp-server#{n}" for n in (1415, 1521, 1526, 1561)])
+        suite = (1415, 1480, 1511, 1521, 1523, 1526, 1530, 1548, 1557, 1561)
+        self.assertEqual(sorted(expected), [f"stickerdaniel/linkedin-mcp-server#{n}" for n in suite])
         llm_ids = [i for i in repeat.point_ids(PARTS) if i not in script_checks_ids()]
         for key, statuses in expected.items():
             with self.subTest(pr=key):

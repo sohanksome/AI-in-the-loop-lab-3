@@ -10,7 +10,7 @@
           "check": "llm",
           "question": "Does the description state what is wrong or missing before this change?",
           "fail_if": [
-            "No part of the description says what was wrong, missing or limited before this change. It can be said in any section, often the first bullet of the Summary. A link to an issue alone doesn't count, and neither does a description that only lists what the PR adds."
+            "No part of the description says what was wrong, missing or limited before this change. It can be said in any section, often the first bullet of the Summary. A link to an issue alone doesn't count, and neither does a description that only lists what the PR adds. Release notes or a changelog copied from a dependency don't count either: they describe the dependency, not what was wrong in this project."
           ]
         },
         {

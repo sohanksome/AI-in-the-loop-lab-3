@@ -70,3 +70,9 @@
 **Why:** Issue [#12](https://github.com/sohanksome/PR-message-quality-assurance-bot/issues/12) needs the cost per review on PRs of different sizes before we cut anything, and the Action only has a normal API key. A model without a listed price records `usd: null` instead of failing the review.\
 **Alternative rejected:** Reading the cost from the Usage and Cost API, which needs an admin key and reports per day, not per request; estimating from prompt characters, which misses output and thinking tokens.\
 **Led by:** heyvrann
+
+## 2026-11-28 — Dependency release notes don't state the project's problem (C5)
+**What:** `problem_stated` in `bot/criteria.json` now says that release notes or a changelog copied from a dependency don't count as saying what was wrong. A Renovate PR that only copies the dependency's release notes fails the point.\
+**Why:** The prompt suite's first round found the bot passing `problem_stated` on linkedin-mcp-server #1548, a Renovate bump, because the copied release notes described the action's old behavior. Those notes describe the dependency, not a problem in the project.\
+**Alternative rejected:** Changing `expected.json` to accept the bot's reading, which would only move the expected answers, not fix the rule.\
+**Led by:** sohanksome
