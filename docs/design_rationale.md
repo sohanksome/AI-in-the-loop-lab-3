@@ -42,7 +42,7 @@ The bot reads the PR through the GitHub API: description, commits, linked issues
 
 ### 5. A fixed, written checklist instead of an open review
 
-The bot checks 12 points in four parts (Problem, Summary, Verification, Synthetic prompt), listed in `bot/criteria.json`. Each point has a question, and with C6 ([#25](https://github.com/sohanksome/PR-message-quality-assurance-bot/pull/25), not merged yet) the points Claude judges also get explicit `fail_if` and `na_if` conditions.
+The bot checks 12 points in four parts (Problem, Summary, Verification, Synthetic prompt), listed in `bot/criteria.json`. Each point has a question, and since C6 ([#25](https://github.com/sohanksome/PR-message-quality-assurance-bot/pull/25)) the points Claude judges also have explicit `fail_if` and `na_if` conditions.
 
 - **Why:** contributors can only fix what is named. A fixed list also makes reviews comparable over time, which our evaluation needs, and lets maintainers change the bar by editing one JSON file, with no code change.
 - **Rejected:** asking Claude for a free-form review. Free-form comments vary from run to run and mix taste with requirements.
